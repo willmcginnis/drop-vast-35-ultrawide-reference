@@ -263,6 +263,38 @@ decoding.
 **No DDC/CI toggle exists in the OSD** — all nine menus were captured and none
 contains one, so this behaviour cannot be switched off.
 
+### OPEN QUESTION — is the limit the MONITOR, or this Mac?
+
+**Not established, and it matters because the published repository attributes it
+to the display.**
+
+Two confounds were excluded. `selftest` excluded per-process `IOAVService`
+teardown; `patience` excluded pacing out to 80-second gaps. **The host was never
+excluded.** Every probe in this document ran through Apple Silicon's display
+coprocessor (DCP), which mediates the AUX I2C channel. If the DCP is what wedges
+rather than the monitor's scaler, then:
+
+- the limit is not a property of this monitor at all,
+- the display would enumerate normally from another host, and
+- **the public repository contains a factual error that needs correcting.**
+
+**The test, and it is cheap:** connect the monitor to the Samsung Galaxy Book
+(`BOOK-D3ICB62MO3`, Windows 11 IoT LTSC) and drive DDC/CI there with NirSoft's
+ControlMyMonitor — a portable executable needing no installer, which matters
+because that host has no usable package manager path for this. Unattended SSH
+access already exists: key at
+`~/claude-chat/projects/vmware-keepalive-swift-audit/.ssh-keys/claudecode_samsung-book`,
+helper at
+`~/dev/troubleshoot-10-gigabit-ethernet-adapter-issues/bin/samsung-ssh.sh`, host
+record at `~/.claude/skills/machines/samsung-galaxy-book.md`. Note that ICMP is
+blocked there, so `ping` is not a liveness test.
+
+**Status:** deferred by Will on 2026-08-11 ("let's pause this for now"), because
+the OSD photographs already delivered the complete settings tree this
+investigation existed to produce. **Revive when** the monitor is connected to the
+Samsung Galaxy Book, or when anyone reports DDC/CI behaving normally on this
+model — either contradicts the published claim.
+
 ## 5. Reproducing any of this
 
 ```bash
