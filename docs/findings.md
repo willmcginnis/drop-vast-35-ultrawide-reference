@@ -220,10 +220,17 @@ Three measured facts:
    after  80s gap : FAIL
    ```
 
-   So the bus is **not merely slow**. With process churn excluded by `selftest`
-   and pacing excluded by `patience`, the conclusion is now earned rather than
-   assumed: **this display answers exactly one DDC/CI transaction per power
-   event, and nothing short of a power cycle restores it.** Every test so far used ~120 ms gaps, and
+   **But this does NOT isolate pacing, and an earlier revision wrongly said it
+   did.** The gaps ran *sequentially on an already-stateful bus*: the baseline
+   consumed the first transaction, then the 2-second probe ran, then the 5-second
+   probe, and so on. If the 2-second probe is itself what wedges the engine, every
+   later probe is measuring a bus that was already wedged rather than testing its
+   own gap independently. A real isolation needs **one power cycle per gap**.
+
+   What IS established: at ~120 ms pacing the display answers **at most one**
+   transaction per power event, and process churn is excluded. Whether a long
+   *first* gap behaves differently is untested — as is whether the limit belongs
+   to the display at all rather than to this Mac (see the open question below). Every test so far used ~120 ms gaps, and
    some scalers need far longer (ddcutil ships "sleep multipliers" for exactly
    this class). `ddcprobe patience` escalates the gap to 2/5/10/20/40/80 s to
    test whether the bus is merely *slow* rather than single-shot. It must also
