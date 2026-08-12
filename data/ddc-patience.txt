@@ -1,0 +1,16 @@
+probing external display [0] of 1: DCPAVServiceProxy (location=External)
+Escalating-delay probe of VCP 0x10
+Establishing the baseline read first, then retrying with growing gaps.
+
+  baseline      : OK cur=100 max=100
+  after   2s gap : FAIL cur=0 max=0
+  after   5s gap : FAIL cur=0 max=0
+  after  10s gap : FAIL cur=0 max=0
+  after  20s gap : FAIL cur=0 max=0
+  after  40s gap : FAIL cur=0 max=0
+  after  80s gap : FAIL cur=0 max=0
+
+VERDICT: no recovery even after 80s idle. Combined with selftest, the
+display answers ONE DDC transaction per power event regardless of
+pacing. DDC/CI is not practically usable on this monitor — read the
+settings from the OSD instead.

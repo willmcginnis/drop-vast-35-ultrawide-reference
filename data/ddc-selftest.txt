@@ -1,0 +1,22 @@
+Reading VCP 0x10 15x within a single process
+(one IOAVService handle, 100ms reply delay, 120ms between)
+
+  read  1: OK   cur=100 max=100
+  read  2: FAIL cur=0 max=0
+  read  3: FAIL cur=0 max=0
+  read  4: FAIL cur=0 max=0
+  read  5: FAIL cur=0 max=0
+  read  6: FAIL cur=0 max=0
+  read  7: FAIL cur=0 max=0
+  read  8: FAIL cur=0 max=0
+  read  9: FAIL cur=0 max=0
+  read 10: FAIL cur=0 max=0
+  read 11: FAIL cur=0 max=0
+  read 12: FAIL cur=0 max=0
+  read 13: FAIL cur=0 max=0
+  read 14: FAIL cur=0 max=0
+  read 15: FAIL cur=0 max=0
+
+Passed 1/15 within one process.
+VERDICT: the display's DDC engine really is effectively single-shot
+per power cycle. Probing enumeration is impractical; use the OSD.

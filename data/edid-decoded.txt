@@ -1,0 +1,165 @@
+EDID blob: 256 bytes (2 block(s))
+
+EDID BASE BLOCK (block 0)
+=========================
+  header valid   : True
+  checksum valid : True (sum mod 256 = 0)
+
+Vendor / product identity
+-------------------------
+  Manufacturer ID   : ICB
+  Product code      : 0x3500 (13568)
+  Serial number     : 0  (not programmed)
+  Manufactured      : week 40, year 2017
+  EDID version      : 1.4
+
+Basic display parameters
+------------------------
+  Input type        : digital, DisplayPort
+  Colour bit depth  : 10 bits per colour
+  Screen size       : 82 x 35 cm  (35.1" diagonal)
+  Aspect ratio      : 2.34:1
+  Display gamma     : 2.20
+  Feature flags     :
+      standby supported          : False
+      suspend supported          : False
+      active-off / very low power: True
+      sRGB is default colourspace: True
+      preferred timing is native : True
+      continuous frequency       : True   (EDID 1.4: accepts continuous timings, the basis for adaptive-sync;
+                                    EDID 1.3: means default-GTF support instead)
+
+Chromaticity (CIE 1931 xy)
+--------------------------
+  Red    x=0.6572  y=0.3311
+  Green  x=0.3018  y=0.6230
+  Blue   x=0.1465  y=0.0557
+  White  x=0.3125  y=0.3281
+
+Established timings (legacy VESA modes)
+---------------------------------------
+  - 720x400 @ 70Hz
+  - 640x480 @ 60Hz
+  - 640x480 @ 67Hz
+  - 640x480 @ 72Hz
+  - 640x480 @ 75Hz
+  - 800x600 @ 56Hz
+  - 800x600 @ 60Hz
+  - 800x600 @ 72Hz
+  - 800x600 @ 75Hz
+  - 832x624 @ 75Hz
+  - 1024x768 @ 60Hz
+  - 1024x768 @ 70Hz
+  - 1024x768 @ 75Hz
+  - 1280x1024 @ 75Hz
+  - 1152x870 @ 75Hz (Apple)
+
+Standard timings
+----------------
+  - 1920x1080 @ 60Hz (16:9)
+  - 1280x720 @ 60Hz (16:9)
+  - 1280x800 @ 60Hz (16:10)
+  - 1280x1024 @ 60Hz (5:4)
+  - 1600x900 @ 60Hz (16:9)
+  - 1680x1050 @ 60Hz (16:10)
+  - 1680x1050 @ 100Hz (16:10)
+  - 512x288 @ 100Hz (16:9)
+
+Descriptor blocks
+-----------------
+  [0] Detailed Timing: 3440x1440 @ 99.99Hz (progressive)
+      pixel clock : 533.100 MHz
+      horizontal  : active 3440, blank 160, total 3600 (front porch 48, sync 32)
+      vertical    : active 1440, blank 41, total 1481 (front porch 3, sync 10)
+      h-freq      : 148.083 kHz
+      image size  : 708 x 399 mm (32.0" diagonal)
+  [1] Detailed Timing: 3440x1440 @ 59.97Hz (progressive)
+      pixel clock : 319.750 MHz
+      horizontal  : active 3440, blank 160, total 3600 (front porch 48, sync 32)
+      vertical    : active 1440, blank 41, total 1481 (front porch 3, sync 10)
+      h-freq      : 88.819 kHz
+      image size  : 708 x 399 mm (32.0" diagonal)
+  [2] Display Range Limits:
+      vertical refresh : 40-125 Hz
+      horizontal rate  : 160-160 kHz
+      max pixel clock  : 650 MHz
+      timing formula   : range limits only (no timing formula)
+  [3] Display Name          : 'DP'
+
+Trailer
+-------
+  Extension blocks  : 1
+  Checksum byte     : 0x7f
+
+CEA-861 EXTENSION (block 1)
+===========================
+  Revision          : 3
+  Checksum valid    : True
+
+Capability flags
+----------------
+  Underscan supported (IT formats) : True
+  BASIC AUDIO supported            : True   <-- DP audio sink
+  YCbCr 4:4:4 supported            : True
+  YCbCr 4:2:2 supported            : True
+  Native detailed timing count     : 2
+
+Data block collection
+---------------------
+    Video Data Block  (len 10)
+      VIC   5: 1920x1080i @ 60Hz (16:9)
+      VIC   4: 1280x720p @ 60Hz (16:9) [NATIVE]
+      VIC   3: 720x480p @ 60Hz (16:9)
+      VIC   2: 720x480p @ 60Hz (4:3)
+      VIC   1: 640x480p @ 60Hz (4:3)
+      VIC  18: 720x576p @ 50Hz (16:9)
+      VIC  19: 1280x720p @ 50Hz (16:9) [NATIVE]
+      VIC  20: 1920x1080i @ 50Hz (16:9)
+      VIC  22: 720(1440)x576i @ 50Hz (16:9)
+      VIC   7: 720(1440)x480i @ 60Hz (16:9)
+    Audio Data Block  (len 3)
+      Short Audio Descriptor #1
+        format       : LPCM (uncompressed)
+        max channels : 8
+        sample rates : 32.0, 44.1, 48.0, 88.2, 96.0, 176.4, 192.0 kHz
+        bit depths   : 16, 20, 24-bit
+        max bitrate  : 8 ch x 192.0 kHz x 24 bit = 36.86 Mbit/s
+    Speaker Allocation Data Block  (len 3)
+      speakers declared: FL/FR (front left/right)
+    Vendor Specific Data Block  (len 5)
+      IEEE OUI     : 00-0C-03  HDMI Licensing LLC (HDMI 1.4)
+      CEC physical address: 1.0.0.0
+      raw payload  : 030c001000
+
+Detailed timings in this block
+------------------------------
+  [0] 720x480 @ 59.94Hz (progressive)
+      pixel clock : 27.000 MHz
+      horizontal  : active 720, blank 138, total 858 (front porch 16, sync 62)
+      vertical    : active 480, blank 45, total 525 (front porch 9, sync 6)
+      h-freq      : 31.469 kHz
+      image size  : 708 x 398 mm (32.0" diagonal)
+  [1] 2560x1440 @ 60.07Hz (progressive)
+      pixel clock : 242.000 MHz
+      horizontal  : active 2560, blank 160, total 2720 (front porch 48, sync 32)
+      vertical    : active 1440, blank 41, total 1481 (front porch 3, sync 6)
+      h-freq      : 88.971 kHz
+      image size  : 708 x 398 mm (32.0" diagonal)
+  [2] 2560x1440 @ 99.99Hz (progressive)
+      pixel clock : 402.810 MHz
+      horizontal  : active 2560, blank 160, total 2720 (front porch 88, sync 44)
+      vertical    : active 1440, blank 41, total 1481 (front porch 4, sync 5)
+      h-freq      : 148.092 kHz
+      image size  : 708 x 398 mm (32.0" diagonal)
+  [3] 1920x1080 @ 60.00Hz (progressive)
+      pixel clock : 148.500 MHz
+      horizontal  : active 1920, blank 280, total 2200 (front porch 88, sync 44)
+      vertical    : active 1080, blank 45, total 1125 (front porch 4, sync 5)
+      h-freq      : 67.500 kHz
+      image size  : 708 x 398 mm (32.0" diagonal)
+  [4] 1920x1080 @ 100.00Hz (progressive)
+      pixel clock : 247.500 MHz
+      horizontal  : active 1920, blank 280, total 2200 (front porch 88, sync 44)
+      vertical    : active 1080, blank 45, total 1125 (front porch 4, sync 5)
+      h-freq      : 112.500 kHz
+      image size  : 708 x 398 mm (32.0" diagonal)
