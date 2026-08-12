@@ -65,6 +65,7 @@ swiftc -O tools/ddcprobe.swift -o ddcprobe
 ./ddcprobe quickscan  # probe the ~50 codes monitors actually implement
 ./ddcprobe selftest   # N reads in one process — diagnoses a wedging bus
 ./ddcprobe patience   # escalating inter-command gaps — slow bus vs single-shot
+./ddcprobe checksumtest  # unit-test the reply-checksum validator (no display needed)
 ```
 
 On a multi-display Mac every command except `list` operates on the FIRST external

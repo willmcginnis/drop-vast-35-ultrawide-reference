@@ -130,6 +130,39 @@ func ddcRead(_ service: IOAVService, count: Int) -> (IOReturn, [UInt8]) {
     return (result, buffer)
 }
 
+/// The seed for a REPLY checksum is the host address (0x50), not the display's.
+/// Derived from two frames captured on real hardware — a Get VCP reply
+/// (`6e 88 02 00 10 00 00 64 00 64 a4`) and a Null Message (`6e 80 be`) — which
+/// independently agree on 0x50.
+let ddcReplySeed: UInt8 = 0x50
+
+/// Validate a DDC/CI reply frame's trailing checksum.
+///
+/// Added after a cross-family review found that NEITHER reply path validated
+/// one: any read carrying the right opcode and VCP code was accepted, so a
+/// corrupted or stale frame could become a confident current/maximum value in a
+/// tool whose whole selling point is not lying to you.
+///
+/// Returns nil when the frame is well-formed and its checksum matches; otherwise
+/// a human-readable reason.
+func checksumFailure(_ buffer: [UInt8]) -> String? {
+    guard buffer.count >= 3 else { return "reply shorter than 3 bytes" }
+    let declared = Int(buffer[1] & 0x7F)
+    let frameLength = 2 + declared + 1  // dest + length + payload + checksum
+    guard buffer.count >= frameLength else {
+        return "length byte declares \(declared) payload bytes (frame \(frameLength)) "
+            + "but only \(buffer.count) were read"
+    }
+    var computed = ddcReplySeed
+    for index in 0..<(frameLength - 1) { computed ^= buffer[index] }
+    let actual = buffer[frameLength - 1]
+    if computed != actual {
+        return String(format: "checksum mismatch: computed 0x%02X, frame carries 0x%02X",
+                      computed, actual)
+    }
+    return nil
+}
+
 struct VCPReply {
     let resultCode: UInt8
     let vcpCode: UInt8
@@ -158,6 +191,8 @@ func getVCP(_ service: IOAVService, code: UInt8, attempts: Int = 3) -> VCPReply?
         }
         // Null Message: the display explicitly declines this code. Return it
         // as an unsupported reply rather than retrying — it is a real answer.
+        // Its checksum is validated by the literal 0xBE, which IS the correct
+        // checksum for `6e 80` under the 0x50 seed.
         if buffer.count >= 3, buffer[0] == 0x6E, buffer[1] == 0x80, buffer[2] == 0xBE {
             return VCPReply(resultCode: 0x01, vcpCode: code, vcpType: 0,
                             maximum: 0, current: 0, raw: buffer)
@@ -171,6 +206,14 @@ func getVCP(_ service: IOAVService, code: UInt8, attempts: Int = 3) -> VCPReply?
                   buffer[found + 2] == code {
             opcodeIndex = found
         } else {
+            usleep(interCommandDelay)
+            continue
+        }
+        // A frame carrying the right opcode and code can still be corrupt or
+        // stale. Verify the checksum before believing any value out of it.
+        if let failure = checksumFailure(buffer) {
+            FileHandle.standardError.write(Data(
+                "  discarding reply for VCP 0x\(String(format: "%02X", code)): \(failure)\n".utf8))
             usleep(interCommandDelay)
             continue
         }
@@ -392,6 +435,34 @@ let arguments = CommandLine.arguments
 guard arguments.count >= 2 else {
     printUsage()
     exit(2)
+}
+
+// Pure unit tests run BEFORE display discovery — they operate on byte arrays
+// and must not require attached hardware.
+if arguments[1] == "checksumtest" {
+    // Proves the validator accepts real captured frames and rejects corruption.
+    let good: [UInt8] = [0x6E, 0x88, 0x02, 0x00, 0x10, 0x00, 0x00, 0x64, 0x00, 0x64, 0xA4]
+    let null: [UInt8] = [0x6E, 0x80, 0xBE]
+    var corrupt = good; corrupt[7] ^= 0x01
+    var truncated = good; truncated.removeLast(3)
+    let cases: [(String, [UInt8], Bool)] = [
+        ("real Get VCP reply (captured live)", good, true),
+        ("real Null Message (captured live)", null, true),
+        ("one payload byte flipped", corrupt, false),
+        ("frame truncated below its declared length", truncated, false),
+    ]
+    var allOK = true
+    for (label, frame, shouldPass) in cases {
+        let failure = checksumFailure(frame)
+        let passed = (failure == nil) == shouldPass
+        allOK = allOK && passed
+        print("  \(passed ? "PASS" : "FAIL")  expected \(shouldPass ? "accept" : "reject"): \(label)")
+        if let failure, !shouldPass { print("        reason: \(failure)") }
+    }
+    print("")
+    print(allOK ? "PASS: the checksum validator accepts real frames and rejects corruption."
+                : "FAIL: do NOT trust reply values from this build.")
+    exit(allOK ? 0 : 1)
 }
 
 let services = discoverServices()
