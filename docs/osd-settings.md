@@ -114,7 +114,7 @@ volume control, it is **not muted**, and volume sits at the midpoint.
 **`Volume` here is the ONLY volume control for DisplayPort audio.** macOS
 provides no native control for this output — the keyboard volume keys and
 menu-bar slider have no effect on it, because the monitor presents as a
-fixed-level sink. At the default of 50 the output is loud. Measured. Combined
+fixed-level sink. On this unit it sits at 50, which is loud. Whether 50 is the factory DEFAULT was not established — one photograph showed the current value, and no factory reset was performed. Combined
 with the confirmed 3.5 mm line-out jack, audio over DisplayPort is fully
 enabled end to end — it just needs headphones or powered speakers in the jack.
 

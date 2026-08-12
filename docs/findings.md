@@ -123,7 +123,7 @@ plays correctly through headphones — verified by plugging them in.
 control for this output.** The keyboard volume keys and the menu-bar slider do
 not affect it, because the monitor presents itself as a fixed-level DisplayPort
 audio sink. **The monitor's own OSD `Volume` setting is the only volume control**,
-and at its default of 50 the output is loud. If DisplayPort audio here is
+and on this unit it sits at 50, which is loud (whether 50 is the factory default was not established — no factory reset was performed). If DisplayPort audio here is
 painfully loud, that is the fix — Audio Settings → Volume in the OSD, not
 anything on the Mac.
 

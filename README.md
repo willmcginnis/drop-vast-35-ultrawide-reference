@@ -17,7 +17,7 @@ below is a summary; the labels live in the documents it links to.
 | Question | Answer |
 |---|---|
 | **Does it have speakers?** | **No** — but it has an undocumented **3.5 mm line-out jack**. Drop's own spec sheet says only "Speakers: None" and never mentions the jack. |
-| **Does DisplayPort audio work?** | **Yes — measured.** DisplayPort audio drives the 3.5 mm jack and plays through headphones. But **macOS has no native volume control for it**; the monitor's OSD `Volume` is the only one, and its default of 50 is loud. |
+| **Does DisplayPort audio work?** | **Yes — measured.** DisplayPort audio drives the 3.5 mm jack and plays through headphones. But **macOS has no native volume control for it**; the monitor's OSD `Volume` is the only one, and it sits at 50 on this unit, which is loud. |
 | **Firmware version?** | **`V0.1`**, shown in the OSD header. No other source we could reach reports a version number for this monitor. |
 | **Is there a firmware update?** | **No.** None was ever published. Drop had AUO rewrite the controller firmware *at the factory* before shipping; users who asked for patches got nothing. |
 | **Does DDC/CI work?** | **Barely.** At ~120 ms pacing it answers **at most one** transaction per power event, then returns Null Messages until power-cycled. Process churn is excluded; **pacing is NOT** (the gap probes ran sequentially on an already-wedged bus), and **the host is not excluded either** — this may be Apple Silicon's DCP rather than the display. Not a usable control path regardless. |
